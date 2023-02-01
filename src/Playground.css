@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Tahoma&display=swap');
+
+body {
+    font-family: 'Tahoma', sans-serif;
+}
+
 .playground-container {
     background-color: #303030;
     color: #f2f2f2;
@@ -24,7 +30,14 @@ header {
 }
 
 .dropdown-container {
+    display: flex;
+    align-items: center;
     margin-right: 20px;
+}
+
+label {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 select {
@@ -42,10 +55,53 @@ select {
     color: #303030;
     border: none;
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
     font-size: 1em;
+    width: 80%;
+    height: 200px;
     outline: none;
-    width: 80vw;
-    height: 50vh;
+    resize: none;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #f2f2f2;
+    color: #303030;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
     margin-top: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.spinner {
+    border: 5px solid #f2f2f2;
+    border-top: 5px solid #303030;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
