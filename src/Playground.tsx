@@ -11,6 +11,10 @@ function Playground() {
         console.log('Generating...');
     };
 
+    const onStopGenerate = () => {
+        setGenerating(false);
+    };
+
     return (
         <div className="playground-container">
             <header>
@@ -23,23 +27,23 @@ function Playground() {
                         onChange={e => setModel(e.target.value)}
                     >
                         <option value="">Select a model</option>
-                        <option value="model1">Model 1</option>
-                        <option value="model2">Model 2</option>
+                        <option value="model1">BloomZ on Petal</option>
+                        <option value="model2">ChatGPT </option>
                         <option value="model3">Model 3</option>
                     </select>
                 </div>
             </header>
-            <textarea
-                className="textbox"
-                value={text}
-                onChange={e => setText(e.target.value)}
-                readOnly={generating}
-                disabled={generating}
-            />
+            <div className="textbox-container">
+                <textarea
+                    className="textbox"
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    readOnly={generating}
+                    disabled={generating}
+                />
+            </div>
             {generating ? (
-                <div className="overlay">
-                    <div className="spinner" />
-                </div>
+                <button onClick={onStopGenerate}>Stop Generating</button>
             ) : (
                 <button onClick={onGenerate}>Generate</button>
             )}
