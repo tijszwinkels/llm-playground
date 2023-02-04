@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ChatGpt from './models/ChatGpt';
+import Model from './models/Model';
 import './Playground.css';
 
 function Playground() {
     const [model, setModel] = useState('');
     const [generating, setGenerating] = useState(false);
     const [text, setText] = useState('');
+    const curModel : Model = new ChatGpt();
 
     const onGenerate = () => {
         setGenerating(true);
-        console.log('Generating...');
+        curModel.generate(text).then((response : string) => {
+            console.log(response);
+            setText(text + response);
+            setGenerating(false);
+        });
+        //console.log('Generating...');
     };
 
     const onStopGenerate = () => {
         setGenerating(false);
     };
+
+    useEffect(() => {
+        setText(curModel.preamble);
+    }, []);
 
     return (
         <div className="playground-container">
@@ -27,9 +39,8 @@ function Playground() {
                         onChange={e => setModel(e.target.value)}
                     >
                         <option value="">Select a model</option>
-                        <option value="model1">BloomZ on Petal</option>
-                        <option value="model2">ChatGPT </option>
-                        <option value="model3">Model 3</option>
+                        <option value="petal-bloomz">BloomZ on Petal</option>
+                        <option value="chatgpt">ChatGPT</option>
                     </select>
                 </div>
             </header>
