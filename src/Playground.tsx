@@ -93,7 +93,7 @@ function Playground() {
                 />
             </div>
             {generating ? (
-                <button onClick={onStopGenerate}>Stop Generating</button>
+                <button onClick={onStopGenerate}>Generating ...</button>
             ) : (
                 <button onClick={onGenerate}>Generate</button>
             )}

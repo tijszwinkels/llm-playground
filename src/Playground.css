@@ -60,20 +60,20 @@ select {
     outline: none;
     resize: none;
     box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.textbox:disabled {
+    background-color: gray;
 }
 
 .textbox-container {
-    background-color: #f2f2f2;
-    color: #303030;
-    border: none;
-    border-radius: 5px;
+    opacity: 100%;
     padding: 5px;
     font-size: 1em;
     width: 80%;
     height: 400px;
-    outline: none;
-    resize: none;
-    box-sizing: border-box;
 }
 
 button {
