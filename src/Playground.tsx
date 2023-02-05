@@ -10,13 +10,15 @@ function Playground() {
     const curModel : Model = new ChatGpt();
 
     const onGenerate = () => {
+        const start = Date.now();
         setGenerating(true);
+        console.log('Generating...');
         curModel.generate(text).then((response : string) => {
-            console.log(response);
-            setText(text + response);
+            // console.log(response);
+            setText(response);
             setGenerating(false);
+            console.log(`Took ${Date.now() - start}ms`);
         });
-        //console.log('Generating...');
     };
 
     const onStopGenerate = () => {
@@ -38,7 +40,7 @@ function Playground() {
                         value={model}
                         onChange={e => setModel(e.target.value)}
                     >
-                        <option value="">Select a model</option>
+                        <option value="">{curModel.name}</option>
                         <option value="petal-bloomz">BloomZ on Petal</option>
                         <option value="chatgpt">ChatGPT</option>
                     </select>

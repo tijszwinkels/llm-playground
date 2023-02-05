@@ -22,7 +22,7 @@ class ChatGpt implements Model {
                 model: model,
                 prompt: input,
                 max_tokens: 1024,
-                temperature: 0.5,
+                temperature: 0.8,
             }, null, 2),
         };
         console.log(init);
