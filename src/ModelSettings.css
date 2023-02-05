@@ -1,0 +1,19 @@
+button {
+    background-color: #f2f2f2;
+    color: #303030;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+input {
+    width: 100%;
+}
+
+.model-settings {
+    width: 500px;
+}
