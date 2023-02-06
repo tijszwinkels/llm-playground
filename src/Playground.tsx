@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Collapsible from 'react-collapsible';
 import Modal from 'react-modal';
 import ChatGpt from './models/ChatGpt';
 import Model from './models/Model';
@@ -60,6 +61,22 @@ function Playground() {
             <header>
                 <h1 className="title">Playground</h1>
             </header>
+            <Collapsible trigger="Instructions (Click to Show)"
+                         triggerWhenOpen="Instructions (Click to Hide)"
+                         open={true} transitionTime={100}>
+                <div className="instructions">
+                    Fill out your query next to the "User:" prompt<br/>
+                    Click the "Generate" button to generate text.<br/><br/>
+                    <ul>
+                        <li>Anything you enter can be stored by the api provider and/or the creators of this software and might be shared as part of public datasets.</li>
+                        <li>Don't enter any credentials or private data</li>
+                        <li>Use this tool ethically and responsibly</li>
+                        <li>Have fun! :)</li>
+                    </ul>
+                    Obtain an api-key at: <a href="https://platform.openai.com/account/api-keys">platform.openai.com/account/api-keys</a> - Click the cog icon to configure the api-key.<br/>
+                    More information on: <a href="https://github.com/tijszwinkels/llm-playground/tree/jsEval">github.com/tijszwinkels/llm-playground</a>
+                </div>
+            </Collapsible>
             <div className="dropdown-container">
                 <label htmlFor="model-select">Model:</label>
                 <select
@@ -82,7 +99,6 @@ function Playground() {
                     </div>
                 ) : null}
             </div>
-
             <div className="textbox-container">
                 <textarea
                     className="textbox"
