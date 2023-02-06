@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import ChatGpt from './models/ChatGpt';
+import ChatGptJsInterpreter from './models/ChatGptJsInterpreter';
 import Model from './models/Model';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
@@ -11,7 +11,7 @@ function Playground() {
     const [text, setText] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [apiKey, setApiKey] = useState('');
-    const [curModel, setCurModel]  = useState(new ChatGpt());
+    const [curModel, setCurModel]  = useState(new ChatGptJsInterpreter());
     let apiKeyStorageKey = curModel.name + '-api-key';
 
     const onGenerate = () => {
@@ -20,7 +20,7 @@ function Playground() {
         console.log('Generating...');
         curModel.generate(text).then((response : string) => {
             // console.log(response);
-            setText(response);
+            setText(text + response);
             setGenerating(false);
             console.log(`Took ${Date.now() - start}ms`);
         });

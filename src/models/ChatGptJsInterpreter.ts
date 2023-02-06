@@ -11,15 +11,21 @@ const preamble = "You are ChatGPT, a large language model trained by OpenAI. You
     "\n" +
     "For any calculations, don't try to give a result, but write ```js code to solve the problem instead.  Using this, you can fetch external data. If doing so, use fetch and not axios. Prefer public api's that do not require an api key. The result of a fetch is a promise, so assign these to the `ASYNC_EVAL` variable.\n\n" +
     "User:";
+const apiKeyError = "\n\nError: API key not set. Please set the API key by clicking the cog next to the model.\n" +
+    "Don't have an api-key? Get it here: https://platform.openai.com/account/api-keys\n";
 const warning = "\nWARNING: Clicking generate will execute above JS code! - Please be careful!";
 const jsConsoleCapture = "";//"console.oldLog = console.log; console.log = function(value) { console.oldLog(value); return value;}; console.error = console.log;\n\n";
 
 class ChatGptJsInterpreter implements Model {
     readonly name = 'ChatGPT text-chat-davinci-002-20221122 jsEval';
     readonly preamble = preamble;
+    apiKey: string = "";
     async generate(input: string): Promise<string> {
-
-        console.log(input);
+        if (this.apiKey === "") {
+            return input + apiKeyError;
+        }
+        // Chance is pretty low, but prevent the api-key from leaking.
+        input = input.replace(this.apiKey, "<api-key>");
 
         // Execute code as js if the warning is present.
         if (input.indexOf(warning) !== -1) {
@@ -50,7 +56,7 @@ class ChatGptJsInterpreter implements Model {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer ${openAiApiKey}`,
+                "Authorization": `Bearer ${this.apiKey}`,
             },
             body:
                 JSON.stringify({
