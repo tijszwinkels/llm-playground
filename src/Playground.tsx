@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
-import Modal from 'react-modal';
 import ChatGptJsInterpreter from './models/ChatGptJsInterpreter';
-import Model from './models/Model';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
 
@@ -14,6 +12,23 @@ function Playground() {
     const [apiKey, setApiKey] = useState('');
     const [curModel, setCurModel]  = useState(new ChatGptJsInterpreter());
     let apiKeyStorageKey = curModel.name + '-api-key';
+
+    useEffect(() => {
+        if (apiKey !== "") {
+            localStorage.setItem(apiKeyStorageKey, apiKey);
+            curModel.apiKey = apiKey;
+        }
+    }, [apiKey, apiKeyStorageKey, curModel]);
+
+    useEffect(() => {
+        // Retrieve the default start-text from the model
+        setText(curModel.preamble);
+        // Retrieve api-key from local storage
+        let apiKey = localStorage.getItem(apiKeyStorageKey);
+        if (apiKey && apiKey !== "") {
+            setApiKey(apiKey);
+        }
+    }, []);
 
     const onGenerate = () => {
         const start = Date.now();
@@ -27,23 +42,6 @@ function Playground() {
         });
     };
 
-    useEffect(() => {
-        if (apiKey !== "") {
-            localStorage.setItem(apiKeyStorageKey, apiKey);
-            curModel.apiKey = apiKey;
-        }
-    }, [apiKey]);
-
-    useEffect(() => {
-        // Retrieve the default start-text from the model
-        setText(curModel.preamble);
-        // Retrieve api-key from local storage
-        let apiKey = localStorage.getItem(apiKeyStorageKey);
-        if (apiKey && apiKey !== "") {
-            setApiKey(apiKey);
-        }
-    }, []);
-
     const onStopGenerate = () => {
         setGenerating(false);
     };
@@ -56,8 +54,16 @@ function Playground() {
         setShowSettings(false);
     };
 
+    const handleKeyDown = ( event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.ctrlKey && event.shiftKey) {
+            if (event.key === "Enter") {
+                onGenerate();
+            }
+        }
+    };
+
     return (
-        <div className="playground-container">
+        <div className="playground-container" onKeyDown={handleKeyDown}>
             <header>
                 <h1 className="title">Playground</h1>
             </header>
