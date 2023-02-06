@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+# LLM Playground
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Very simple playground for interfacing with (future: several) LLM api's. Work in progress.
+For advanced use, there's a few advantages to a playground-style interface over a chat interface:
+- No inspiration? Just Leave the User: prompt and let GPT generate a question.
+- Edit the response of the model if you're not happy with it.
+- Partly edit the model response, and let the model fill in the rest. 
 
-## Available Scripts
+### Usage
 
-In the project directory, you can run:
+Visit on: https://TinkerTankAI.github.io/llm-playground/
 
-### `npm start`
+### Instructions
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Fill out your query next to the "User:" prompt
+Click the "Generate" button to generate text.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Anything you enter can be stored by the api provider and/or the creators of this software and might be shared as part of public datasets.
+- Don't enter any credentials or private data
+- Use this tool ethically and responsibly
+- Have fun! :)
 
-### `npm test`
+Obtain an api-key at: platform.openai.com/account/api-keys - Click the cog icon to configure the api-key.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ 

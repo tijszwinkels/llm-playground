@@ -63,7 +63,7 @@ function Playground() {
             </header>
             <Collapsible trigger="Instructions (Click to Show)"
                          triggerWhenOpen="Instructions (Click to Hide)"
-                         open={true} transitionTime={100}>
+                         transitionTime={100}>
                 <div className="instructions">
                     Fill out your query next to the "User:" prompt<br/>
                     Click the "Generate" button to generate text.<br/><br/>
@@ -74,7 +74,7 @@ function Playground() {
                         <li>Have fun! :)</li>
                     </ul>
                     Obtain an api-key at: <a href="https://platform.openai.com/account/api-keys">platform.openai.com/account/api-keys</a> - Click the cog icon to configure the api-key.<br/>
-                    More information on: <a href="https://github.com/tijszwinkels/llm-playground/tree/jsEval">github.com/tijszwinkels/llm-playground</a>
+                    More information on: <a href="https://github.com/tijszwinkels/llm-playground">github.com/tijszwinkels/llm-playground</a>
                 </div>
             </Collapsible>
             <div className="dropdown-container">
