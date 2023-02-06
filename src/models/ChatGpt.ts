@@ -31,15 +31,23 @@ class ChatGpt implements Model {
             }, null, 2),
         };
         console.log(init);
-        const response = await fetch(url, init);
-        const json = await response.json();
-        if (json.usage) {
-            console.log(json.usage);
+        try {
+            const response = await fetch(url, init);
+            const json = await response.json();
+            if (json.usage) {
+                console.log(json.usage);
+            }
+            if (json.choices) {
+                return input + json.choices[0].text;
+            } else if (json.error) {
+                throw json.error;
+            }
+            return input;
+        } catch (error : any) {
+            console.error(error);
+            return input + `\n\nError occurred while querying api: ${JSON.stringify(error, null, 2)}\n`+
+                `Please remove this error message before retrying.\n`;
         }
-        if (json.choices) {
-            return input + json.choices[0].text;
-        }
-        return input;
     }
 
 }
