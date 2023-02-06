@@ -16,9 +16,11 @@ const apiKeyError = "\n\nError: API key not set. Please set the API key by click
 const warning = "\nWARNING: Clicking generate will execute above JS code! - Please be careful!";
 const jsConsoleCapture = "";//"console.oldLog = console.log; console.log = function(value) { console.oldLog(value); return value;}; console.error = console.log;\n\n";
 
+// TODO: Refactor to use ChatGtp.ts
 class ChatGptJsInterpreter implements Model {
     readonly name = 'ChatGPT text-chat-davinci-002-20221122 jsEval';
     readonly preamble = preamble;
+    readonly warning = warning;
     apiKey: string = "";
     async generate(input: string): Promise<string> {
         if (this.apiKey === "") {
@@ -68,19 +70,27 @@ class ChatGptJsInterpreter implements Model {
             }, null, 2),
         };
         //console.log(init);
-        const response = await fetch(url, init);
-        const json = await response.json();
-        if (json.usage) {
-            console.log(json.usage);
-        }
-        if (json.choices) {
-            let output = json.choices[0].text;
-            if (output.indexOf("```js") !== -1) {
-                output += warning;
+        try {
+            const response = await fetch(url, init);
+            const json = await response.json();
+            if (json.usage) {
+                console.log(json.usage);
             }
-            return input + output;
+            if (json.choices) {
+                let output = json.choices[0].text;
+                if (output.indexOf("```js") !== -1) {
+                    output += warning;
+                }
+                return input + output;
+            } else if (json.error) {
+                throw json.error;
+            }
+            return input;
+        } catch (error : any) {
+            console.error(error);
+            return input + `\n\nError occurred while querying api: ${JSON.stringify(error, null, 2)}\n`+
+                `Please remove this error message before retrying.\n`;
         }
-        return input;
     }
 
 }
