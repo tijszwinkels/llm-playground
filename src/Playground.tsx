@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
-import Modal from 'react-modal';
 import ChatGpt from './models/ChatGpt';
-import Model from './models/Model';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
 
@@ -32,7 +30,7 @@ function Playground() {
             localStorage.setItem(apiKeyStorageKey, apiKey);
             curModel.apiKey = apiKey;
         }
-    }, [apiKey]);
+    }, [apiKey, apiKeyStorageKey, curModel]);
 
     useEffect(() => {
         // Retrieve the default start-text from the model
