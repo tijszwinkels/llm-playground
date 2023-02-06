@@ -13,18 +13,6 @@ function Playground() {
     const [curModel, setCurModel]  = useState(new ChatGpt());
     let apiKeyStorageKey = curModel.name + '-api-key';
 
-    const onGenerate = () => {
-        const start = Date.now();
-        setGenerating(true);
-        console.log('Generating...');
-        curModel.generate(text).then((response : string) => {
-            // console.log(response);
-            setText(response);
-            setGenerating(false);
-            console.log(`Took ${Date.now() - start}ms`);
-        });
-    };
-
     useEffect(() => {
         if (apiKey !== "") {
             localStorage.setItem(apiKeyStorageKey, apiKey);
@@ -42,6 +30,18 @@ function Playground() {
         }
     }, []);
 
+    const onGenerate = () => {
+        const start = Date.now();
+        setGenerating(true);
+        console.log('Generating...');
+        curModel.generate(text).then((response : string) => {
+            // console.log(response);
+            setText(response);
+            setGenerating(false);
+            console.log(`Took ${Date.now() - start}ms`);
+        });
+    };
+
     const onStopGenerate = () => {
         setGenerating(false);
     };
@@ -54,8 +54,16 @@ function Playground() {
         setShowSettings(false);
     };
 
+    const handleKeyDown = ( event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.ctrlKey && event.shiftKey) {
+            if (event.key === "Enter") {
+                onGenerate();
+            }
+        }
+    };
+
     return (
-        <div className="playground-container">
+        <div className="playground-container" onKeyDown={handleKeyDown}>
             <header>
                 <h1 className="title">Playground</h1>
             </header>
