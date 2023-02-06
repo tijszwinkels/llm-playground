@@ -61,9 +61,10 @@ function Playground() {
             <header>
                 <h1 className="title">Playground</h1>
             </header>
+
             <Collapsible trigger="Instructions (Click to Show)"
                          triggerWhenOpen="Instructions (Click to Hide)"
-                         open={true} transitionTime={100}>
+                         transitionTime={100}>
                 <div className="instructions">
                     Fill out your query next to the "User:" prompt<br/>
                     Click the "Generate" button to generate text.<br/><br/>
@@ -80,6 +81,7 @@ function Playground() {
                     More information on: <a href="https://github.com/tijszwinkels/llm-playground/tree/jsEval">github.com/tijszwinkels/llm-playground/tree/jsEval</a>
                 </div>
             </Collapsible>
+
             <div className="dropdown-container">
                 <label htmlFor="model-select">Model:</label>
                 <select
