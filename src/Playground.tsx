@@ -58,6 +58,8 @@ function Playground() {
         if (event.ctrlKey && event.shiftKey) {
             if (event.key === "Enter") {
                 onGenerate();
+            } if (event.key === "X") {
+                setText(text + curModel.warning);
             }
         }
     };
