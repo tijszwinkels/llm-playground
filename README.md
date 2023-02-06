@@ -28,7 +28,7 @@ since it can do external api-calls, don't just run code unseen.
 
 ### Usage
 
-Visit on: https://TinkerTankAI.github.io/llm-playground/
+Visit on: https://TinkerTankAI.github.io/llm-playground-jseval/
 
 ### Instructions
 
