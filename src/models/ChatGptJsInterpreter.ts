@@ -1,6 +1,5 @@
 import Model from './Model';
 
-const openAiApiKey = "xxx";
 const url = "https://api.openai.com/v1/completions";
 //const model = "text-chat-davinci-002-20230126";
 //const model = "text-chat-davinci-002-20221122";
@@ -67,7 +66,7 @@ class ChatGptJsInterpreter implements Model {
                 prompt: input,
                 max_tokens: 1024,
                 temperature: 0.8,
-                stop: ["User:"],
+                stop: ["User:", "output"],
             }, null, 2),
         };
         //console.log(init);
