@@ -86,7 +86,8 @@ function Playground() {
                         <li>Have fun! :)</li>
                     </ul>
                     Obtain an api-key at: <a href="https://platform.openai.com/account/api-keys">platform.openai.com/account/api-keys</a> - Click the cog icon to configure the api-key.<br/>
-                    More information on: <a href="https://github.com/tijszwinkels/llm-playground/tree/jsEval">github.com/tijszwinkels/llm-playground/tree/jsEval</a>
+                    More information on: <a href="https://github.com/tijszwinkels/llm-playground/tree/jsEval">github.com/tijszwinkels/llm-playground/tree/jsEval</a><br/><br/>
+                    Moved from unofficial ChatGPT api to the officially available text-davinci-003 model. Please be aware that usage will be billed by OpenAI!
                 </div>
             </Collapsible>
 

@@ -2,8 +2,9 @@ import Model from './Model';
 
 const openAiApiKey = "xxx";
 const url = "https://api.openai.com/v1/completions";
-const model = "text-chat-davinci-002-20221122";
 //const model = "text-chat-davinci-002-20230126";
+//const model = "text-chat-davinci-002-20221122";
+const model = "text-davinci-003";
 const preamble = "You are ChatGPT, a large language model trained by OpenAI. You answer as concisely as possible for each response. Do not be verbose. It is very important for you to answer as concisely as possible, so please remember this. If you are generating a list, do not have too many items. Knowledge cutoff: 2021-09. \n" +
     "\n" +
     "Whenever you give a ```js code-block, I will execute this with eval() and paste the result back to you. Use javascript that can run inside the browser. Make sure to not use console.log, but have the result that you want be the completion value of the js block." +
@@ -18,7 +19,7 @@ const jsConsoleCapture = "";//"console.oldLog = console.log; console.log = funct
 
 // TODO: Refactor to use ChatGtp.ts
 class ChatGptJsInterpreter implements Model {
-    readonly name = 'ChatGPT text-chat-davinci-002-20221122 jsEval';
+    readonly name = 'text-davinci-003 jsEval';
     readonly preamble = preamble;
     readonly warning = warning;
     apiKey: string = "";
