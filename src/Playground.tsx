@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
-import JsModelWrapper from './models/JsModelWrapper';
+import Model from './models/Model';
 import OpenAICompletionsApi from './models/OpenAICompletionsApi';
+import JsModelWrapper from './models/JsModelWrapper';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
 
 function Playground() {
-    const [model, setModel] = useState('');
+    // Array of Model
+    const models = [
+        new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")),
+        new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
+        new OpenAICompletionsApi("text-davinci-003")
+    ];
+
     const [generating, setGenerating] = useState(false);
     const [text, setText] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [apiKey, setApiKey] = useState('');
-    const [curModel, setCurModel]  = useState(new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")));
+    const [curModel, setCurModel]  = useState(models[0]);
     let apiKeyStorageKey = curModel.name + '-api-key';
+    let selectedModelStorageKey = 'selected-model';
 
-    useEffect(() => {
-        if (apiKey !== "") {
-            localStorage.setItem(apiKeyStorageKey, apiKey);
-            curModel.apiKey = apiKey;
-        }
-    }, [apiKey, apiKeyStorageKey, curModel]);
-
+    // Run on startup
     useEffect(() => {
         // Retrieve the default start-text from the model
         setText(curModel.preamble);
@@ -29,7 +31,23 @@ function Playground() {
         if (apiKey && apiKey !== "") {
             setApiKey(apiKey);
         }
+        let selectedModelIndex = localStorage.getItem(selectedModelStorageKey);
+        if (selectedModelIndex) {
+            setCurModel(models[parseInt(selectedModelIndex)]);
+        }
     }, []);
+
+    // Handle when the api-key changes
+    useEffect(() => {
+        // TODO: Be careful, right now just copies the API key to every selected model.
+        // This is fine as long as everything is OpenAI (or doesn't use an api key) anyway.
+        if (apiKey !== "") {
+            localStorage.setItem(apiKeyStorageKey, apiKey);
+            curModel.apiKey = apiKey;
+        }
+    }, [apiKey, apiKeyStorageKey, curModel]);
+
+
 
     const onGenerate = () => {
         const start = Date.now();
@@ -60,8 +78,9 @@ function Playground() {
             if (event.key === "Enter") {
                 onGenerate();
             } if (event.key === "X") {
-                /*if (curModel)
-                setText(text + curModel.warning);*/
+                if (curModel instanceof JsModelWrapper) {
+                    setText(text + curModel.warning);
+                }
             }
         }
     };
@@ -97,10 +116,19 @@ function Playground() {
                 <label htmlFor="model-select">Model:</label>
                 <select
                     id="model-select"
-                    value={model}
-                    onChange={e => setModel(e.target.value)}
+                    onChange={e => {
+                        const newModel = models[parseInt(e.target.value)];
+                        if (text == curModel.preamble) {
+                            setText(newModel.preamble)
+                        }
+                        setCurModel(newModel);
+                    }}
                 >
-                    <option value="">{curModel.name}</option>
+                    {models.map((item, index) => (
+                        <option key={item.name} value={index}>
+                            {item.name}
+                        </option>
+                    ))}
                 </select>
                 <div onClick={() => setShowSettings(!showSettings)} className="settings-icon">
                     &#9881;
