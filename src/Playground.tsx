@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
 import Model from './models/Model';
 import OpenAICompletionsApi from './models/OpenAICompletionsApi';
+import PetalsChatApi from './models/PetalsChatApi';
 import JsModelWrapper from './models/JsModelWrapper';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
@@ -11,7 +12,10 @@ function Playground() {
     const models = [
         new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")),
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
-        new OpenAICompletionsApi("text-davinci-003")
+        new OpenAICompletionsApi("text-davinci-003"),
+        new PetalsChatApi("bigscience/bloomz-petals")
+        // new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
+        // new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
     ];
 
     const [generating, setGenerating] = useState(false);
