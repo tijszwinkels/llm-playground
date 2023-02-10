@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
-import ChatGptJsInterpreter from './models/ChatGptJsInterpreter';
+import JsModelWrapper from './models/JsModelWrapper';
+import OpenAICompletionsApi from './models/OpenAICompletionsApi';
 import ModelSettings from './ModelSettings';
 import './Playground.css';
 
@@ -10,7 +11,7 @@ function Playground() {
     const [text, setText] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [apiKey, setApiKey] = useState('');
-    const [curModel, setCurModel]  = useState(new ChatGptJsInterpreter());
+    const [curModel, setCurModel]  = useState(new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")));
     let apiKeyStorageKey = curModel.name + '-api-key';
 
     useEffect(() => {
@@ -59,7 +60,8 @@ function Playground() {
             if (event.key === "Enter") {
                 onGenerate();
             } if (event.key === "X") {
-                setText(text + curModel.warning);
+                /*if (curModel)
+                setText(text + curModel.warning);*/
             }
         }
     };
