@@ -13,9 +13,9 @@ function Playground() {
     const models = [
         new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")),
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
-        new JsModelWrapper(new ChatGptProxy),
+        //new JsModelWrapper(new ChatGptProxy),
         new OpenAICompletionsApi("text-davinci-003"),
-        new ChatGptProxy,
+        //new ChatGptProxy,
         //new PetalsChatApi("bigscience/bloomz-petals")
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
@@ -26,7 +26,7 @@ function Playground() {
     const [showSettings, setShowSettings] = useState(false);
     const [apiKey, setApiKey] = useState('');
     const [curModel, setCurModel]  = useState(models[0]);
-    let apiKeyStorageKey = curModel.name + '-api-key';
+    const apiKeyStorageKey = 'openai-api-key';
     let selectedModelStorageKey = 'selected-model';
 
     // Run on startup
@@ -46,14 +46,24 @@ function Playground() {
 
     // Handle when the api-key changes
     useEffect(() => {
-        // TODO: Be careful, right now just copies the API key to every selected model.
-        // This is fine as long as everything is OpenAI (or doesn't use an api key) anyway.
         if (apiKey !== "") {
             localStorage.setItem(apiKeyStorageKey, apiKey);
             curModel.apiKey = apiKey;
         }
-    }, [apiKey, apiKeyStorageKey, curModel]);
+    }, [apiKey, apiKeyStorageKey]);
 
+    // Api-key changed
+    useEffect(() => {
+        if (apiKey !== "") {
+            localStorage.setItem(apiKeyStorageKey, apiKey);
+            curModel.apiKey = apiKey;
+        }
+    }, [apiKey]);
+
+    // Handle when the curModel changes
+    useEffect(() => {
+        curModel.apiKey = apiKey;
+    }, [curModel]);
 
 
     const onGenerate = () => {

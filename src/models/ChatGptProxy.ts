@@ -1,7 +1,6 @@
 import Model from './Model';
 
-const url = "https://cors-anywhere.herokuapp.com/https://chatgpt.hato.ai/completions";
-//const url = "https://chatgpt.hato.ai/completions";
+const url = "https://chatgpt.hato.ai/completions";
 //const url = "https://chatgpt.pawan.krd/api/completions";
 const apiKeyError = "\n\nError: API key not set. Please set the API key by clicking the cog next to the model.\n" +
     `Please note: This API needs the ChatGPT session's access token instead of the OpenAI Api key.\n`+
