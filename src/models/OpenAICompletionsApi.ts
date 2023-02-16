@@ -68,6 +68,7 @@ class OpenAICompletionsApi implements Model {
     }
 
     async generate_streaming(input: string, callback: (output: string) => void) : Promise<string>{
+        console.log(`${this.name} generate_streaming`);
         let context = {fullText: input};
         return new Promise<string>((resolve, reject) => {
 
@@ -100,7 +101,7 @@ class OpenAICompletionsApi implements Model {
                     if (e.data != "[DONE]") {
                         const data = JSON.parse(e.data);
                         const text: string = data.choices[0].text;
-                        console.log(text);
+                        //console.log(text);
                         context.fullText += text;
                         callback(context.fullText);
                     } else {
