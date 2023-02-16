@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
 import Model from './models/Model';
 import OpenAICompletionsApi from './models/OpenAICompletionsApi';
@@ -27,7 +27,16 @@ function Playground() {
     const [apiKey, setApiKey] = useState('');
     const [curModel, setCurModel]  = useState(models[0]);
     const apiKeyStorageKey = 'openai-api-key';
+    const textRef = useRef();
+
     let selectedModelStorageKey = 'selected-model';
+
+
+    useEffect(() => {
+        // @ts-ignore
+        textRef.current = text;
+    }, [text]);
+
 
     // Run on startup
     useEffect(() => {
@@ -70,8 +79,7 @@ function Playground() {
         const start = Date.now();
         setGenerating(true);
         console.log('Generating...');
-        curModel.generate(text).then((response : string) => {
-            // console.log(response);
+        curModel.generate_streaming(text, (data) => {setText(data)}).then( (response: string) => {
             setText(response);
             setGenerating(false);
             console.log(`Took ${Date.now() - start}ms`);
@@ -164,7 +172,7 @@ function Playground() {
                 <textarea
                     className="textbox"
                     value={text}
-                    onChange={e => setText(e.target.value)}
+                    onChange={e => {if (!generating) setText(e.target.value)} }
                     readOnly={generating}
                     disabled={generating}
                 />

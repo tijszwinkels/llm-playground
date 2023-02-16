@@ -61,6 +61,10 @@ class PetalsChatApi implements Model {
                 `Go to https://cors-anywhere.herokuapp.com to enabled it\n`
         }
     }
+
+    generate_streaming(input: string, callback: (output: string) => void): Promise<string> {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export default PetalsChatApi;

@@ -21,9 +21,8 @@ class JsModelWrapper implements Model {
         this.name = innerModel.name + " " + name;
         this.preamble = innerModel.preamble + preamble;
     }
-    async generate(input: string): Promise<string> {
-        this.innerModel.apiKey = this.apiKey;
 
+    async executeJs(input: string): Promise<string> {
         // Execute code as js if the warning is present.
         if (input.indexOf(warning) !== -1) {
             const jsStart = input.lastIndexOf("```js");
@@ -48,6 +47,12 @@ class JsModelWrapper implements Model {
             let output = input.replace(warning, "");
             return output + "\n" + jsOutput;
         }
+        return input;
+    }
+    async generate(input: string): Promise<string> {
+        this.innerModel.apiKey = this.apiKey;
+
+        input = await this.executeJs(input);
 
         // Let the inner model generate the response
         let output = await this.innerModel.generate(input);
@@ -58,6 +63,19 @@ class JsModelWrapper implements Model {
         }
 
         return output;
+    }
+
+    async generate_streaming(input: string, callback: (output: string) => void): Promise<string> {
+        this.innerModel.apiKey = this.apiKey;
+        input = await this.executeJs(input);
+        return this.innerModel.generate_streaming(input, callback).then((output: string) => {   
+            let newOut = output.replace(input, "");
+            if (newOut.indexOf("```js") !== -1) {
+                // Add the warning if the response contains js-code
+                output += warning;
+            }
+            return output;
+        });
     }
 }
 

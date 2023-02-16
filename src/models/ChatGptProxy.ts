@@ -61,6 +61,10 @@ class ChatGptProxy implements Model {
                 `See https://github.com/waylaidwanderer/node-chatgpt-api#using-a-reverse-proxy for more information.\n`;
         }
     }
+
+    generate_streaming(input: string, callback: (output: string) => void): Promise<string> {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export default ChatGptProxy;
