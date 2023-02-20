@@ -83,9 +83,16 @@ class ChatGPTProxy implements Model {
                         //console.log(e);
                         let data : any = {};
                         try {
-                            data = JSON.parse(e.data);
+                            if (!(e.data === "")) {
+                                data = JSON.parse(e.data);
+                            } else {
+                                resolve(context.input + "\n\nEmpty response from ChatGPT proxy. Please check your access token.\n");
+                                console.warn("Empty response from ChatGPT proxy");
+                                return;
+                            }
                         } catch {
                             console.error(`Error parsing JSON ${e.data}`);
+                            console.log(e);
                             return;
                         }
                         //console.log(data);

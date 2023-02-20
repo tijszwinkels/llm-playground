@@ -2,7 +2,8 @@ import Model from './Model';
 
 const preamble =
     "Whenever you give a ```js code-block, I will execute this with eval() and paste the result back to you. Use javascript that can run inside the browser. Make sure to not use console.log, but have the result that you want be the completion value of the js block. Remember that if the final result is a promise, assign it to the already existing `ASYNC_EVAL` variable.\n\n" +
-    "For any calculations, don't try to give a result, but write javascript code in a ```js code-block to solve the problem instead. Using this, you can fetch external data. If doing so, use fetch and not axios. Prefer public api's that do not require an api key. The result of a fetch is a promise, so assign these to the `ASYNC_EVAL` variable.\n\n" +
+    "For any calculations, don't try to give a result, but write javascript code in a ```js code-block to solve the problem instead. Using this, you can fetch external data. If doing so, use fetch and not axios. Prefer public api's that do not require an api key. The result of a fetch is a promise, so assign these to the `ASYNC_EVAL` variable. " +
+    "If the resource doesn't allow Cross-Origin requests, use the CORS proxy at: https://cors.tinkertankai.eu/\<url\> \n\n" +
     "User:";
 const warning = "\nWARNING: Clicking generate will execute above JS code! - Please be careful!";
 const jsConsoleCapture = "";//"console.oldLog = console.log; console.log = function(value) { console.oldLog(value); return value;}; console.error = console.log;\n\n";

@@ -15,7 +15,6 @@ function Playground() {
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
         new JsModelWrapper(new ChatGptProxy()),
         new JsModelWrapper(new ChatGptProxy("text-davinci-002-render-paid")),
-        //new JsModelWrapper(new ChatGptProxy),
         new OpenAICompletionsApi("text-davinci-003"),
         new ChatGptProxy(),
         new ChatGptProxy("text-davinci-002-render-paid"),
@@ -28,8 +27,10 @@ function Playground() {
     const [text, setText] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [apiKey, setApiKey] = useState('');
+    const [accessToken, setAccessToken] = useState('');
     const [curModel, setCurModel]  = useState(models[0]);
     const apiKeyStorageKey = 'openai-api-key';
+    const accessTokenStorageKey = 'chatgpt-access-token';
     const textRef = useRef();
 
     let selectedModelStorageKey = 'selected-model';
@@ -50,31 +51,43 @@ function Playground() {
         if (apiKey && apiKey !== "") {
             setApiKey(apiKey);
         }
+        let accessToken = localStorage.getItem(accessTokenStorageKey);
+        if (accessToken && accessToken !== "") {
+            setAccessToken(accessToken);
+        }
         let selectedModelIndex = localStorage.getItem(selectedModelStorageKey);
         if (selectedModelIndex) {
             setCurModel(models[parseInt(selectedModelIndex)]);
         }
     }, []);
 
-    // Handle when the api-key changes
+    // apiKey changed
     useEffect(() => {
         if (apiKey !== "") {
             localStorage.setItem(apiKeyStorageKey, apiKey);
-            curModel.apiKey = apiKey;
-        }
-    }, [apiKey, apiKeyStorageKey]);
-
-    // Api-key changed
-    useEffect(() => {
-        if (apiKey !== "") {
-            localStorage.setItem(apiKeyStorageKey, apiKey);
-            curModel.apiKey = apiKey;
+            if (curModel.name.indexOf("OpenAI") !== -1) { // TODO: Nicer way to check this
+                curModel.apiKey = apiKey;
+            }
         }
     }, [apiKey]);
 
-    // Handle when the curModel changes
+    // accessToken changed
     useEffect(() => {
-        curModel.apiKey = apiKey;
+        if (accessToken !== "") {
+            localStorage.setItem(accessTokenStorageKey, accessToken);
+            if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
+                curModel.apiKey = accessToken;
+            }
+        }
+    }, [accessToken]);
+
+    // curModel changed
+    useEffect(() => {
+        if (curModel.name.indexOf("OpenAI") !== -1) { // TODO: Nicer way to check this
+            curModel.apiKey = apiKey;
+        } else if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
+            curModel.apiKey = accessToken;
+        }
     }, [curModel]);
 
 
@@ -166,6 +179,8 @@ function Playground() {
                         <ModelSettings
                             apiKey={apiKey}
                             setApiKey={setApiKey}
+                            accessToken={accessToken}
+                            setAccessToken={setAccessToken}
                             onClose={() => setShowSettings(false)}
                         />
                     </div>
