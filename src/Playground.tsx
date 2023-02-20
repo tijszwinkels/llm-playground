@@ -13,9 +13,12 @@ function Playground() {
     const models = [
         new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")),
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
+        new JsModelWrapper(new ChatGptProxy()),
+        new JsModelWrapper(new ChatGptProxy("text-davinci-002-render-paid")),
         //new JsModelWrapper(new ChatGptProxy),
         new OpenAICompletionsApi("text-davinci-003"),
-        //new ChatGptProxy,
+        new ChatGptProxy(),
+        new ChatGptProxy("text-davinci-002-render-paid"),
         //new PetalsChatApi("bigscience/bloomz-petals")
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
@@ -143,7 +146,7 @@ function Playground() {
                     id="model-select"
                     onChange={e => {
                         const newModel = models[parseInt(e.target.value)];
-                        if (text == curModel.preamble) {
+                        if (text === curModel.preamble) {
                             setText(newModel.preamble)
                         }
                         setCurModel(newModel);

@@ -112,7 +112,8 @@ class OpenAICompletionsApi implements Model {
                 eventSource.stream();
             } catch (error : any) {
                 console.error(error);
-                reject(error);
+                resolve(input + `\n\nError occurred while querying api: ${JSON.stringify(error, null, 2)}\n`+
+                    `Please remove this error message before retrying.\n`);
             }
         });
 
