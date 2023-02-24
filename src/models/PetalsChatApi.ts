@@ -1,7 +1,15 @@
 import Model from './Model';
 
-const url = "https://cors-anywhere.herokuapp.com/http://chat.petals.ml/api/v1/generate";
-//const url = "http://localhost:5000/api/v1/generate";
+//const url = "https://cors.tinkertankai.eu/http://chat.petals.ml/api/v1/generate";
+const url = "http://tinkertankai.eu:5000/api/v1/generate";
+//const ws_url = "ws://tinkertankai.eu:5000/api/v2/generate";
+const ws_url = "ws://chat.petals.ml/api/v2/generate";
+
+const generationParams = {
+    do_sample: 1,
+    temperature: 0.9,
+    top_k: 40,
+};
 
 /**
  * This API uses an open API from the Petals project.
@@ -63,7 +71,53 @@ class PetalsChatApi implements Model {
     }
 
     generate_streaming(input: string, callback: (output: string) => void): Promise<string> {
-        throw new Error("Method not implemented.");
+        //return this.generate(input);
+        let context = {
+            input : input,
+            fullText: input,
+            newText: "",
+        };
+        return new Promise<string>((resolve, reject) => {
+            let ws = new WebSocket(ws_url);
+            ws.onopen = () => {
+                console.log("Connected to websocket");
+                ws.send(JSON.stringify({type: "open_inference_session", model: this.modelName, max_length: 2048}));
+                console.log("Sent open_inference_session");
+                ws.send(JSON.stringify({
+                    type: "generate",
+                    inputs: input,
+                    max_new_tokens: 1,
+                    stop_sequence: "</s>",
+                    extra_stop_sequences: ["\n\nHuman:"],
+                    ...generationParams
+                }));
+                console.log("Sent generate");
+                ws.onmessage = event => {
+                    console.log("Received message");
+                    const response = JSON.parse(event.data);
+
+                    // Everything ok?
+                    if (!response.ok) {
+                        console.error(response.traceback);
+                        resolve(context.fullText + "\n\nError while querying api: " + response.traceback);
+                        return;
+                    }
+
+                    if (!response.stop) {
+                        if (response.outputs) {
+                            // Process new text
+                            context.newText += response.outputs
+                            console.log(response.outputs);
+                            context.fullText = context.input + context.newText;
+                            callback(context.fullText);
+                        }
+                    } else {
+                        // Stop condition
+                        resolve(context.fullText);
+                    }
+                };
+            };
+        });
     }
 }
 

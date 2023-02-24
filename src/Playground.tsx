@@ -15,10 +15,13 @@ function Playground() {
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
         new JsModelWrapper(new ChatGptProxy()),
         new JsModelWrapper(new ChatGptProxy("text-davinci-002-render-paid")),
+        new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
+        new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
         new OpenAICompletionsApi("text-davinci-003"),
         new ChatGptProxy(),
         new ChatGptProxy("text-davinci-002-render-paid"),
-        //new PetalsChatApi("bigscience/bloomz-petals")
+        new PetalsChatApi("bigscience/bloomz-petals"),
+        new PetalsChatApi("bigscience/bloom-petals")
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
     ];
