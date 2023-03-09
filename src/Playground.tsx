@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Collapsible from 'react-collapsible';
 import Model from './models/Model';
 import OpenAICompletionsApi from './models/OpenAICompletionsApi';
-import ChatGptProxy from './models/ChatGptProxy';
+import OpenAIChatApi from './models/OpenAIChatApi';
 import PetalsChatApi from './models/PetalsChatApi';
 import JsModelWrapper from './models/JsModelWrapper';
 import ModelSettings from './ModelSettings';
@@ -11,17 +11,16 @@ import './Playground.css';
 function Playground() {
     // Array of Model
     const models = [
+        // gpt-3.5-turbo
+        new JsModelWrapper(new OpenAIChatApi()),
         new JsModelWrapper(new OpenAICompletionsApi("text-davinci-003")),
         new JsModelWrapper(new OpenAICompletionsApi("code-davinci-002")),
-        new JsModelWrapper(new ChatGptProxy()),
-        new JsModelWrapper(new ChatGptProxy("text-davinci-002-render-paid")),
-        new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
-        new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
+        //new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
+        //new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
         new OpenAICompletionsApi("text-davinci-003"),
-        new ChatGptProxy(),
-        new ChatGptProxy("text-davinci-002-render-paid"),
-        new PetalsChatApi("bigscience/bloomz-petals"),
-        new PetalsChatApi("bigscience/bloom-petals")
+        new OpenAIChatApi(),
+        //new PetalsChatApi("bigscience/bloomz-petals"),
+        //new PetalsChatApi("bigscience/bloom-petals")
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloomz-petals")),
         // new JsModelWrapper(new PetalsChatApi("bigscience/bloom-petals")),
     ];
@@ -68,9 +67,8 @@ function Playground() {
     useEffect(() => {
         if (apiKey !== "") {
             localStorage.setItem(apiKeyStorageKey, apiKey);
-            if (curModel.name.indexOf("OpenAI") !== -1) { // TODO: Nicer way to check this
-                curModel.apiKey = apiKey;
-            }
+            //if (curModel.name.indexOf("OpenAI") !== -1) { // TODO: Nicer way to check this
+            curModel.apiKey = apiKey;
         }
     }, [apiKey]);
 
@@ -78,19 +76,19 @@ function Playground() {
     useEffect(() => {
         if (accessToken !== "") {
             localStorage.setItem(accessTokenStorageKey, accessToken);
-            if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
+            /*if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
                 curModel.apiKey = accessToken;
-            }
+            }*/
         }
     }, [accessToken]);
 
     // curModel changed
     useEffect(() => {
-        if (curModel.name.indexOf("OpenAI") !== -1) { // TODO: Nicer way to check this
+        if ((curModel.name.indexOf("OpenAI") !== -1) || (curModel.name.indexOf("ChatGPT") !== -1)) { // TODO: Nicer way to check this
             curModel.apiKey = apiKey;
-        } else if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
+        }/* else if (curModel.name.indexOf("ChatGPT") !== -1) { // TODO: Nicer way to check this
             curModel.apiKey = accessToken;
-        }
+        }*/
     }, [curModel]);
 
 
