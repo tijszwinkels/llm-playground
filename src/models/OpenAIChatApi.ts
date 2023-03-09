@@ -12,7 +12,7 @@ class OpenAIChatApi implements Model {
     apiKey: string = "";
     modelName: string = "";
 
-    preamble: string = "You are ChatGPT, a helpful and powerful large language model. Answer concisely.\n\n";
+    preamble: string = "You are ChatGPT, a helpful and powerful large language model. Prepend your answers with 'ChatGPT:'.\n\n";
 
     constructor(modelName: string = "gpt-3.5-turbo") {
         this.modelName = modelName;
@@ -26,7 +26,7 @@ class OpenAIChatApi implements Model {
 
     async generate_streaming(input: string, callback: (output: string) => void) : Promise<string>{
         console.log(`${this.name} generate_streaming`);
-        let context = {fullText: input + "\n\nChatGPT:"}
+        let context = {fullText: input}
         return new Promise<string>((resolve, reject) => {
 
             if (this.apiKey === "") {
