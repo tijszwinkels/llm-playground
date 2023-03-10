@@ -79,10 +79,11 @@ class JsModelWrapper implements Model {
 
         return this.innerModel.generate_streaming(input, callback).then((output: string) => {   
             let newOut = output.replace(input, "");
-            if (newOut.indexOf("```js") !== -1) {
+            if ((newOut.indexOf("```js") !== -1) || (newOut.indexOf("'''js") !== -1)) {
                 // Add the warning if the response contains js-code
                 output += warning;
             }
+            output = output.replaceAll("'''", "```");
             return output;
         });
     }
