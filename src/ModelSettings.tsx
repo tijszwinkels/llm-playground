@@ -23,15 +23,14 @@ const ModelSettings: React.FC<Props> = ({ apiKey, setApiKey, accessToken, setAcc
             <pre>Get an OpenAI API key at platform.openai.com/account/api-keys</pre>
             <br/><br/>
 
-            <label htmlFor="access-token">ChatGpt Access Token:</label>
+            <label htmlFor="access-token">KoboldAI Horde api-key:</label>
             <input
                 id="access-token"
                 type="text"
                 value={accessToken}
                 onChange={e => setAccessToken(e.target.value)}
             />
-            <pre>ChatGpt Access Token Only required for the ChatGPT models</pre>
-            <pre>See:<br/>github.com/transitive-bullshit/chatgpt-api#access-token<br/>for information on how to obtain an access token.</pre>
+            <pre>See:<br/>https://stablehorde.net/<br/>for obtaining an api-key, or use '0000000000' for anonymous account.</pre>
             <br/>
             <button onClick={onClose}>Close</button>
         </div>

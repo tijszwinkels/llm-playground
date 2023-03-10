@@ -42,7 +42,7 @@ class JsModelWrapper implements Model {
                     if (ASYNC_EVAL) {
                         jsOutput += `\nASYNC_EVAL resolved output: ${await ASYNC_EVAL}`;
                     }
-                    jsOutput += "\n\nUser: Please explain these results to me.";
+                    jsOutput += "\n\nUser: Please explain these results (after 'output') to me.";
                 } catch (e) {
                     jsOutput = "error: " + e;
                     jsOutput += "\n\nUser: Could you fix this?";

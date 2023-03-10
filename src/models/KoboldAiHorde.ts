@@ -6,7 +6,7 @@ const url = "https://horde.koboldai.net/api/v2/generate/text/async";
 const statusUrl = "https://horde.koboldai.net/api/v2/generate/text/status/"
 const apiKeyError = "\n\nError: API key not set. Please set the API key by clicking the cog next to the model.\n" +
     "Don't have an api-key? Get it here: https://platform.openai.com/account/api-keys\n";
-const name = "AI Horde";
+const name = "KoboldAI Horde";
 
 class KoboldAiHorde implements Model {
     readonly name;

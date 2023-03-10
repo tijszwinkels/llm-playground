@@ -38,7 +38,6 @@ class OpenAIChatApi implements Model {
             let data = {
                 model: this.modelName,
                 messages: [{role: "user", content: input}],
-                max_tokens: 1024,
                 temperature: 0.8,
                 stop: ["User:", "output"],
                 stream: true,
